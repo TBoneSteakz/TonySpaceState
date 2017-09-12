@@ -10,6 +10,11 @@
 #include "Runtime/AIModule/Classes/Perception/AIPerceptionComponent.h"
 #include "Runtime/AIModule/Classes/Perception/AISenseConfig.h"
 #include "Runtime/AIModule/Classes/Perception/AISenseConfig_Sight.h"
+#include "Runtime/Engine/Classes/AI/Navigation/NavLinkProxy.h"
+#include "Runtime/Engine/Classes/Components/CapsuleComponent.h"
+#include "Runtime/CoreUObject/Public/UObject/Object.h"
+
+
 
 	float UMyBlueprintFunctionLibrary::MyGetSightRadius(AActor * Actor)
 	{
@@ -29,7 +34,7 @@
 
 		// Save original lose range
 		float SightRadius = ConfigSight->SightRadius;
-
+		
 		return SightRadius;
 	}
 
@@ -51,3 +56,33 @@
 		// Save original lose range
 		ConfigSight->SightRadius = sightRadius;
 	}
+
+
+	FVector UMyBlueprintFunctionLibrary::MyGetNavLinkLeft(AActor* Actor)
+	{
+		FVector left;
+		auto Navlinks = Cast<ANavLinkProxy>(Actor);
+		TArray<FNavigationLink> ArrayNavlinks = Navlinks->PointLinks;
+		for (int32 Index = 0; Index < ArrayNavlinks.Num(); ++Index)
+		{
+			left = ArrayNavlinks[Index].Left;
+		}
+
+		return left;
+	}
+
+	FVector UMyBlueprintFunctionLibrary::MyGetNavLinkRight(AActor* Actor)
+	{
+		FVector Right;
+		auto Navlinks = Cast<ANavLinkProxy>(Actor);
+		TArray<FNavigationLink> ArrayNavlinks = Navlinks->PointLinks;
+		for (int32 Index = 0; Index < ArrayNavlinks.Num(); ++Index)
+		{
+			Right = ArrayNavlinks[Index].Right;
+		}
+	
+		return Right;
+
+	}
+
+
